@@ -56,7 +56,7 @@ router.post('/', (req, res) => {
 // Update a task
 router.put('/:id', (req, res) => {
     const taskId = parseInt(req.params.id);
-    const { title, description, completed, priority } = req.body;
+    const { title, description, completed, priority, createdAt } = req.body;
 
     const task = tasks.find(t => t.id === taskId);
     if (!task) {
@@ -67,6 +67,7 @@ router.put('/:id', (req, res) => {
     task.description = description !== undefined ? description : task.description;
     task.completed = completed !== undefined ? completed : task.completed;
     task.priority = priority !== undefined ? priority : task.priority;
+    task.createdAt = createdAt !== undefined ? createdAt : task.createdAt;
 
     res.json(task);
 });
