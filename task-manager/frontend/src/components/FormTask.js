@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./FormTask.css";
 
 // Task form for adding new tasks
 export default function FormTask({ onSubmit }) {
@@ -50,100 +51,69 @@ export default function FormTask({ onSubmit }) {
   };
 
   return (
-    <form className="task-form" onSubmit={submit} style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: 20,
-      maxWidth: 420,
-      margin: "40px auto 0",
-      padding: 32,
-      background: "#fff",
-      borderRadius: 18,
-      boxShadow: "0 4px 24px 0 rgba(0,0,0,0.07)",
-    }}>
-      <div style={{ display: "flex", gap: 16 }}>
-        <div style={{ flex: 2, display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: 500, marginBottom: 6 }}>Title</label>
+    <form className="form-task" onSubmit={submit}>
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="title">Title</label>
           <input
+            id="title"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            style={{ padding: 12, fontSize: "1.1rem", borderRadius: 8, border: "1px solid #ddd", fontFamily: "inherit" }}
             required
           />
         </div>
-        <div style={{ flex: 3, display: "flex", flexDirection: "column", minWidth: 0 }}>
-          <label style={{ fontWeight: 500, marginBottom: 6 }}>Description</label>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
           <textarea
+            id="description"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            style={{
-              padding: 12,
-              fontSize: "1.1rem",
-              borderRadius: 8,
-              border: "1px solid #ddd",
-              resize: "vertical",
-              minHeight: 48,
-              maxHeight: 120,
-              maxWidth: "100%",
-              boxSizing: "border-box",
-              fontFamily: "inherit"
-            }}
             required
           />
         </div>
       </div>
-      <div style={{ display: "flex", gap: 16 }}>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: 500, marginBottom: 6 }}>Priority</label>
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="priority">Priority</label>
           <select
+            id="priority"
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
-            style={{ padding: 12, fontSize: "1.1rem", borderRadius: 8, border: "1px solid #ddd" }}
           >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
         </div>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: 500, marginBottom: 6 }}>Date</label>
+        <div className="form-group">
+          <label htmlFor="date">Date</label>
           <input
+            id="date"
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            style={{ padding: 12, fontSize: "1.1rem", borderRadius: 8, border: "1px solid #ddd" }}
           />
         </div>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: 500, marginBottom: 6 }}>Time</label>
+        <div className="form-group">
+          <label htmlFor="time">Time</label>
           <input
+            id="time"
             type="time"
             value={time}
             onChange={(e) => setTime(e.target.value)}
-            style={{ padding: 12, fontSize: "1.1rem", borderRadius: 8, border: "1px solid #ddd" }}
           />
         </div>
       </div>
       <button
         type="submit"
         disabled={submitting}
-        style={{
-          marginTop: 18,
-          padding: "14px 0",
-          fontSize: "1.2rem",
-          background: "#222",
-          color: "#fff",
-          border: "none",
-          borderRadius: 8,
-          cursor: "pointer",
-          fontWeight: 600,
-        }}
+        className="form-task-btn"
       >
         {submitting ? "Adding..." : "Add"}
       </button>
-      {error && <div className="error" style={{ color: "#c00", marginTop: 8 }}>{error}</div>}
+      {error && <div className="form-task-error">{error}</div>}
     </form>
   );
 }

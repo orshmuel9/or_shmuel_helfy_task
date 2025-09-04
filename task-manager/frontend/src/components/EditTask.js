@@ -1,3 +1,4 @@
+import "./EditTask.css";
 import { useState } from "react";
 // EditTask component for editing an existing task
 

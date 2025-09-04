@@ -1,5 +1,6 @@
 
 
+import "./TaskCarousel.css";
 // Task carousel - infinite loop, smooth drag, and good vibes
 import { useEffect, useMemo, useRef, useState } from "react";
 import TaskItem from "./TaskItem";
