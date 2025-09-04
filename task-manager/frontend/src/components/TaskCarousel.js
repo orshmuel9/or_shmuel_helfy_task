@@ -13,6 +13,7 @@ export default function TaskCarousel({
   speed = 0.25,    // px/ms when auto=true
   onDelete,
   onToggle,
+  onEdit,
 }) {
   const viewportRef = useRef(null);
   const [isInteracting, setIsInteracting] = useState(false);
@@ -133,7 +134,7 @@ export default function TaskCarousel({
                 key={`${t.id}-${i}`}
                 style={{ flex: `0 0 ${cardWidth}px`, marginRight: gap }}
               >
-                <TaskItem task={t} onDelete={onDelete} onToggle={onToggle} />
+                <TaskItem task={t} onDelete={onDelete} onToggle={onToggle} onEdit={onEdit} />
               </div>
             );
           })}

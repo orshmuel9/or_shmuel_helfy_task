@@ -18,6 +18,14 @@ let tasks = [
         completed: false,
         createdAt: new Date(),
         priority: 'high'
+    },
+    {
+        id: 3,
+        title: 'I HOPE YOU WILL LIKE THIS',
+        description: ':D',
+        completed: true,
+        createdAt: new Date(),
+        priority: 'high'
     }
 ];
 

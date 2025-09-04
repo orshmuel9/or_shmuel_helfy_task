@@ -1,6 +1,6 @@
 
 // TaskItem now supports delete and toggle completed
-export default function TaskItem({ task, onDelete, onToggle }) {
+export default function TaskItem({ task, onDelete, onToggle, onEdit }) {
   return (
     <div
       style={{
@@ -62,6 +62,20 @@ export default function TaskItem({ task, onDelete, onToggle }) {
           }}
         >
           {task.completed ? "Mark as Incomplete" : "Mark as Completed"}
+        </button>
+        <button
+          onClick={() => onEdit?.(task)}
+          style={{
+            padding: "6px 18px",
+            borderRadius: 8,
+            border: "none",
+            background: "#e6f7ff",
+            color: "#222",
+            fontWeight: 500,
+            cursor: "pointer"
+          }}
+        >
+          Edit
         </button>
         <button
           onClick={() => onDelete?.(task.id)}
