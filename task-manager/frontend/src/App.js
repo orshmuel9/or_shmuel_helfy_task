@@ -11,6 +11,8 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [filter, setFilter] = useState("all"); // all, completed, uncompleted
+  const [sortPriority, setSortPriority] = useState(""); // '', 'asc', 'desc'
 
   useEffect(() => {
     (async () => {
@@ -46,16 +48,43 @@ export default function App() {
     setTasks((prev) => prev.map((t) => t.id === id ? updated : t));
   };
 
+
   if (loading) return <div>Loading…</div>;
   if (err) return <div>Error: {err}</div>;
+
+  // Filter and sort tasks
+  let filteredTasks = tasks;
+  if (filter === "completed") filteredTasks = filteredTasks.filter(t => t.completed);
+  if (filter === "uncompleted") filteredTasks = filteredTasks.filter(t => !t.completed);
+  if (sortPriority) {
+    filteredTasks = [...filteredTasks].sort((a, b) => {
+      const prio = { low: 1, medium: 2, high: 3 };
+      return sortPriority === "asc" ? prio[a.priority] - prio[b.priority] : prio[b.priority] - prio[a.priority];
+    });
+  }
 
   return (
     <div style={{ maxWidth: 960, margin: "24px auto", fontFamily: "system-ui" }}>
       <h1>Tasks</h1>
+      {/* Filter and sort controls */}
+      {!showForm && (
+        <div style={{ display: "flex", gap: 16, marginBottom: 24 }}>
+          <select value={filter} onChange={e => setFilter(e.target.value)} style={{ padding: 8, borderRadius: 8 }}>
+            <option value="all">All</option>
+            <option value="completed">Completed</option>
+            <option value="uncompleted">Uncompleted</option>
+          </select>
+          <select value={sortPriority} onChange={e => setSortPriority(e.target.value)} style={{ padding: 8, borderRadius: 8 }}>
+            <option value="">Sort by Priority</option>
+            <option value="asc">Priority Ascending</option>
+            <option value="desc">Priority Descending</option>
+          </select>
+        </div>
+      )}
       {/* Show carousel and add button if not adding */}
       {!showForm && (
         <>
-          <TaskCarousel tasks={tasks} auto={false} onDelete={handleDelete} onToggle={handleToggle} />
+          <TaskCarousel tasks={filteredTasks} auto={false} onDelete={handleDelete} onToggle={handleToggle} />
           <div style={{ textAlign: "center", marginTop: 32 }}>
             <button
               onClick={() => setShowForm(true)}

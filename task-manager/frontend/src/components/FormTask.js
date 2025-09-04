@@ -6,6 +6,7 @@ export default function FormTask({ onSubmit }) {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("low");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,18 +19,29 @@ export default function FormTask({ onSubmit }) {
       return;
     }
 
+    let createdAt;
+    if (date) {
+      if (time) {
+        createdAt = new Date(date + 'T' + time);
+      } else {
+        createdAt = new Date(date);
+      }
+      createdAt = createdAt.toISOString();
+    }
+
     try {
       setSubmitting(true);
       await onSubmit({
         title,
         description,
         priority,
-        createdAt: date ? new Date(date).toISOString() : undefined,
+        createdAt,
       });
       setTitle("");
       setDescription("");
       setPriority("low");
       setDate("");
+      setTime("");
     } catch (err) {
       setError(err.message || "Failed to create task");
     } finally {
@@ -101,6 +113,15 @@ export default function FormTask({ onSubmit }) {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            style={{ padding: 12, fontSize: "1.1rem", borderRadius: 8, border: "1px solid #ddd" }}
+          />
+        </div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: 500, marginBottom: 6 }}>Time</label>
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
             style={{ padding: 12, fontSize: "1.1rem", borderRadius: 8, border: "1px solid #ddd" }}
           />
         </div>
