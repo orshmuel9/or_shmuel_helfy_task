@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 
 // Create a new task
 router.post('/', (req, res) => {
-    const { title, description, priority } = req.body;
+    const { title, description, priority , createdAt } = req.body;
     if (!title || !description || !priority) {
         return res.status(400).json({ error: 'Title, description, and priority are required' });
     }
@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
         title,
         description,
         completed: false,
-        createdAt: new Date(),
+        createdAt: createdAt ? new Date(createdAt) : new Date(),
         priority
     };
     tasks.push(newTask);
