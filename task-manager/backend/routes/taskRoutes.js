@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
         title,
         description,
         completed: false,
-        createdAt: createdAt ? new Date(createdAt) : new Date(),
+        createdAt: createdAt || new Date(),
         priority
     };
     tasks.push(newTask);

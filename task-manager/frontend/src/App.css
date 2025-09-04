@@ -10,8 +10,8 @@
 }
 
 
-.carousel-viewport {
-  width: 1200px;
+ .carousel-viewport {
+  width: 900px;
   min-height: 220px;
   overflow-x: auto;
   overflow-y: visible;
