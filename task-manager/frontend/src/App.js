@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { fetchTasks, createTask } from "./services/taskApi";
+import { fetchTasks, createTask, deleteTask, toggleTaskCompletion } from "./services/taskApi";
 import TaskCarousel from "./components/TaskCarousel";
 import TaskForm from "./components/FormTask";
 import "./App.css";
@@ -26,11 +26,24 @@ export default function App() {
     })();
   }, []);
 
+
   // Create new task and go back to carousel
   const handleCreate = async (payload) => {
     const newTask = await createTask(payload);
     setTasks((prev) => [...prev, newTask]);
     setShowForm(false);
+  };
+
+  // Delete a task
+  const handleDelete = async (id) => {
+    await deleteTask(id);
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  // Toggle completed
+  const handleToggle = async (id) => {
+    const updated = await toggleTaskCompletion(id);
+    setTasks((prev) => prev.map((t) => t.id === id ? updated : t));
   };
 
   if (loading) return <div>Loading…</div>;
@@ -42,7 +55,7 @@ export default function App() {
       {/* Show carousel and add button if not adding */}
       {!showForm && (
         <>
-          <TaskCarousel tasks={tasks} auto={false} />
+          <TaskCarousel tasks={tasks} auto={false} onDelete={handleDelete} onToggle={handleToggle} />
           <div style={{ textAlign: "center", marginTop: 32 }}>
             <button
               onClick={() => setShowForm(true)}

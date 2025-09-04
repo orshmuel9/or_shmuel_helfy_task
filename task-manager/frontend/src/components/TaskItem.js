@@ -1,4 +1,6 @@
-export default function TaskItem({ task }) {
+
+// TaskItem now supports delete and toggle completed
+export default function TaskItem({ task, onDelete, onToggle }) {
   return (
     <div
       style={{
@@ -7,6 +9,7 @@ export default function TaskItem({ task }) {
         padding: "32px 28px",
         background: "#fff",
         minHeight: 140,
+        position: "relative"
       }}
     >
       <div
@@ -33,8 +36,8 @@ export default function TaskItem({ task }) {
               task.priority === "high"
                 ? "#ffe9e9"
                 : task.priority === "medium"
-                ? "#fff4e6"
-                : "#e8f7ee",
+                  ? "#fff4e6"
+                  : "#e8f7ee",
             fontWeight: 500,
           }}
         >
@@ -42,11 +45,39 @@ export default function TaskItem({ task }) {
         </span>
       </div>
       <p style={{ margin: "0", fontSize: "1.2rem" }}>{task.description}</p>
-      {task.completed && (
-        <div style={{ color: "green", marginTop: 12, fontSize: "1.1rem" }}>
-          ✅ Completed
-        </div>
-      )}
+      <div style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 16 }}>
+        <span style={{ fontWeight: 500, color: task.completed ? "green" : "#c00" }}>
+          Completed: {task.completed ? "True" : "False"}
+        </span>
+        <button
+          onClick={() => onToggle?.(task.id)}
+          style={{
+            padding: "6px 18px",
+            borderRadius: 8,
+            border: "none",
+            background: task.completed ? "#e8f7ee" : "#ffe9e9",
+            color: "#222",
+            fontWeight: 500,
+            cursor: "pointer"
+          }}
+        >
+          {task.completed ? "Mark as Incomplete" : "Mark as Completed"}
+        </button>
+        <button
+          onClick={() => onDelete?.(task.id)}
+          style={{
+            padding: "6px 18px",
+            borderRadius: 8,
+            border: "none",
+            background: "#eee",
+            color: "#c00",
+            fontWeight: 500,
+            cursor: "pointer"
+          }}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

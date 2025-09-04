@@ -11,6 +11,8 @@ export default function TaskCarousel({
   gap = 32,        // Space between cards
   auto = false,    // Enable auto-scroll if you want
   speed = 0.25,    // px/ms when auto=true
+  onDelete,
+  onToggle,
 }) {
   const viewportRef = useRef(null);
   const [isInteracting, setIsInteracting] = useState(false);
@@ -131,7 +133,7 @@ export default function TaskCarousel({
                 key={`${t.id}-${i}`}
                 style={{ flex: `0 0 ${cardWidth}px`, marginRight: gap }}
               >
-                <TaskItem task={t} />
+                <TaskItem task={t} onDelete={onDelete} onToggle={onToggle} />
               </div>
             );
           })}
