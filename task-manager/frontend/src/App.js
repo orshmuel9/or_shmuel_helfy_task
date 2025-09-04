@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { fetchTasks } from "./services/taskApi";
+import TaskCarousel from "./components/TaskCarousel";
+import "./App.css";
 
-function App() {
+export default function App() {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const data = await fetchTasks();
+        setTasks(data);
+      } catch (e) {
+        setErr(e.message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading) return <div>Loading…</div>;
+  if (err) return <div>Error: {err}</div>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ maxWidth: 960, margin: "24px auto", fontFamily: "system-ui" }}>
+      <h1>Tasks</h1>
+      <TaskCarousel tasks={tasks} auto={false} />
+
     </div>
   );
 }
-
-export default App;
