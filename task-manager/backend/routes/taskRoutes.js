@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
 
 // Update a task
 router.put('/:id', (req, res) => {
-    const taskId = paraseInt(req.params.id);
+    const taskId = parseInt(req.params.id);
     const { title, description, completed, priority } = req.body;
 
     const task = tasks.find(t => t.id === taskId);
@@ -85,3 +85,6 @@ router.patch('/:id/toggle', (req, res) => {
     task.completed = !task.completed;
     res.json(task);
 });
+
+
+module.exports = router;
